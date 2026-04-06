@@ -1,6 +1,13 @@
 spring:
   application:
     name: InfiniteChat-Agent
+  data:
+    redis:
+      host: 134.175.219.78
+      port: 59000
+      password: e65K4t8w2
+      ttl: 3600
+      timeout: 30000
 
 
 server:
@@ -13,6 +20,13 @@ logging:
   level:
     dev.langchain4j.mcp: ERROR
 
+pgvector:
+  database: dp
+  host: 134.175.219.78
+  port : 54328
+  user: root
+  password: e65K4t7z1
+  table: dp_embedding
 
 
 langchain4j:
@@ -20,8 +34,15 @@ langchain4j:
     dashscope:
       chat-model:
         model-name: qwen-max
-        api-key: sk-a2e8926b245a4f689d7617efd23ae4aa
+        api-key: xxxxxxx
+      embedding-model:
+        model-name: text-embedding-v4
+        api-key: xxxxxxx
 
 
 bigmodel:
-  api-key: 704468fad5dd498d83a87ad14df79379.db6xR5v10wchaK5u
+  api-key: xxxxxxxxxxxxxxxx
+
+
+rag:
+  docs-path: xxxxxxxx
