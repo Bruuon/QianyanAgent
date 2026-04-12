@@ -1,4 +1,4 @@
-package com.shanyangcode.infintechatagent.tool;
+package com.shanyangcode.infinitechatagent.tool;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;

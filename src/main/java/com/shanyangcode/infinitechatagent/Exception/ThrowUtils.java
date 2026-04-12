@@ -1,7 +1,7 @@
-package com.shanyangcode.infintechatagent.Exception;
+package com.shanyangcode.infinitechatagent.Exception;
 
 
-import com.shanyangcode.infintechatagent.common.ErrorCode;
+import com.shanyangcode.infinitechatagent.common.ErrorCode;
 
 /**
  * 抛异常工具类

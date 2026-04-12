@@ -1,4 +1,4 @@
-package com.shanyangcode.infintechatagent.common;
+package com.shanyangcode.infinitechatagent.common;
 
 /**
  * 自定义错误码

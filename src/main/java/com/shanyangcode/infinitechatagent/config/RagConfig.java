@@ -1,10 +1,6 @@
-package com.shanyangcode.infintechatagent.config;
+package com.shanyangcode.infinitechatagent.config;
 
 
-import java.util.List;
-
-import dev.langchain4j.data.document.Document;
-import dev.langchain4j.data.document.loader.FileSystemDocumentLoader;
 import dev.langchain4j.data.document.splitter.DocumentByParagraphSplitter;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.model.embedding.EmbeddingModel;
@@ -33,30 +29,27 @@ public class RagConfig {
     @Value("${rag.docs-path}")
     private String docsPath;
 
-
     @Bean
-    public ContentRetriever contentRetriever() {
-
-        List<Document> documents = FileSystemDocumentLoader.loadDocuments(docsPath);
-    
+    public EmbeddingStoreIngestor embeddingStoreIngestor() {
         DocumentByParagraphSplitter paragraphSplitter = new DocumentByParagraphSplitter(300, 100);
-       
-        EmbeddingStoreIngestor ingestor = EmbeddingStoreIngestor.builder()
+
+        return EmbeddingStoreIngestor.builder()
                 .documentSplitter(paragraphSplitter)
                 .textSegmentTransformer(textSegment -> TextSegment.from(
                         textSegment.metadata().getString("file_name") + "\n" + textSegment.text(),
                         textSegment.metadata()
                 ))
-                
+
                 .embeddingModel(embeddingModel)
                 .embeddingStore(embeddingStore)
                 .build();
-    
-        ingestor.ingest(documents);
+    }
 
 
 
-        // 余弦与欧拉
+    @Bean
+    public ContentRetriever contentRetriever() {
+
         ContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
                 .embeddingStore(embeddingStore)
                 .embeddingModel(embeddingModel)

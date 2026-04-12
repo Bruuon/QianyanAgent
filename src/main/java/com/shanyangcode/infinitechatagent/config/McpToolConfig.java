@@ -1,4 +1,4 @@
-package com.shanyangcode.infintechatagent.config;
+package com.shanyangcode.infinitechatagent.config;
 
 import java.util.Arrays;
 import dev.langchain4j.mcp.McpToolProvider;

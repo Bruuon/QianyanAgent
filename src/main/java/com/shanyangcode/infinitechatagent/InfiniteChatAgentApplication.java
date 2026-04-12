@@ -1,4 +1,4 @@
-package com.shanyangcode.infintechatagent;
+package com.shanyangcode.infinitechatagent;
 
 import dev.langchain4j.community.store.embedding.redis.spring.RedisEmbeddingStoreAutoConfiguration;
 import org.springframework.boot.SpringApplication;

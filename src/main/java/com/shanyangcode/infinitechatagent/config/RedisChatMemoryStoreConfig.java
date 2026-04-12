@@ -1,4 +1,4 @@
-package com.shanyangcode.infintechatagent.config;
+package com.shanyangcode.infinitechatagent.config;
 
 import dev.langchain4j.community.store.memory.chat.redis.RedisChatMemoryStore;
 import lombok.Data;

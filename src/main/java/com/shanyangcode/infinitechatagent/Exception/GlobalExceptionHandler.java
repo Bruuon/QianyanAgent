@@ -1,13 +1,13 @@
-package com.shanyangcode.infintechatagent.Exception;
+package com.shanyangcode.infinitechatagent.Exception;
 
 
 import java.util.HashMap;
 import java.util.Map;
 
 
-import com.shanyangcode.infintechatagent.common.BaseResponse;
-import com.shanyangcode.infintechatagent.common.ErrorCode;
-import com.shanyangcode.infintechatagent.common.ResultUtils;
+import com.shanyangcode.infinitechatagent.common.BaseResponse;
+import com.shanyangcode.infinitechatagent.common.ErrorCode;
+import com.shanyangcode.infinitechatagent.common.ResultUtils;
 import dev.langchain4j.guardrail.InputGuardrailException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.FieldError;

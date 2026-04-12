@@ -1,6 +1,6 @@
-package com.shanyangcode.infintechatagent.ai;
+package com.shanyangcode.infinitechatagent.ai;
 
-import com.shanyangcode.infintechatagent.guardrail.SafeInputGuardrail;
+import com.shanyangcode.infinitechatagent.guardrail.SafeInputGuardrail;
 import dev.langchain4j.service.MemoryId;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
