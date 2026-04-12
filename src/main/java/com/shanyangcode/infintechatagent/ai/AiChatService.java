@@ -1,6 +1,8 @@
 package com.shanyangcode.infintechatagent.ai;
 
 import com.shanyangcode.infintechatagent.config.McpToolConfig;
+import com.shanyangcode.infintechatagent.tool.EmailTool;
+import com.shanyangcode.infintechatagent.tool.RagTool;
 import com.shanyangcode.infintechatagent.tool.TimeTool;
 import dev.langchain4j.community.store.memory.chat.redis.RedisChatMemoryStore;
 import dev.langchain4j.data.document.Document;
@@ -35,6 +37,12 @@ public class AiChatService {
     @Resource
     private ContentRetriever contentRetriever;
 
+    @Resource
+    private RagTool ragTool;
+
+    @Resource
+    private EmailTool emailTool;
+
     @Bean
     public AiChat aiChat() {
 
@@ -47,7 +55,7 @@ public class AiChatService {
                         .chatMemoryStore(redisChatMemoryStore)
                         .maxMessages(20)
                         .build())
-                .tools(new TimeTool())
+                .tools(new TimeTool(), ragTool, emailTool)
                 .toolProvider(mcpToolProvider)
                 .build();
     }

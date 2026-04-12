@@ -8,6 +8,17 @@ spring:
       password: e65K4t8w2
       ttl: 3600
       timeout: 30000
+  mail:
+    host: smtp.qq.com  # 以QQ邮箱为例
+    port: 587
+    username: xxxxx # 你的发件账号
+    password: xxxxx # 你的SMTP授权码
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 
 server:
@@ -45,4 +56,4 @@ bigmodel:
 
 
 rag:
-  docs-path: xxxxxxxx
+  docs-path: src/main/resources/docs
