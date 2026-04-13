@@ -11,8 +11,8 @@ spring:
   mail:
     host: smtp.qq.com  # 以QQ邮箱为例
     port: 587
-    username: xxxxx # 你的发件账号
-    password: xxxxx # 你的SMTP授权码
+    username: xxxxxx # 你的发件账号
+    password: xxxxxx # 你的SMTP授权码
     properties:
       mail:
         smtp:
@@ -45,15 +45,18 @@ langchain4j:
     dashscope:
       chat-model:
         model-name: qwen-max
-        api-key: xxxxxxx
+        api-key: xxxxxxxxxxxxx
+      streaming-chat-model:
+        model-name: qwen-max
+        api-key: xxxxxxxxxxxxxx
       embedding-model:
         model-name: text-embedding-v4
-        api-key: xxxxxxx
+        api-key: xxxxxxxxxxxxxx
 
 
 bigmodel:
-  api-key: xxxxxxxxxxxxxxxx
+  api-key: xxxxxxxxxxxxxxxxxxxxx
 
 
 rag:
-  docs-path: src/main/resources/docs
+  docs-path: xxxxxxxxxxxxxxxxxxxxxxx

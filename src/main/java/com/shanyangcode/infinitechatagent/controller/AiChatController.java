@@ -2,17 +2,29 @@ package com.shanyangcode.infinitechatagent.controller;
 
 
 import com.shanyangcode.infinitechatagent.ai.AiChat;
+<<<<<<< HEAD
+=======
+import com.shanyangcode.infinitechatagent.model.dto.ChatRequest;
+>>>>>>> 7541c4b (add config)
 import com.shanyangcode.infinitechatagent.model.dto.KnowledgeRequest;
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.Metadata;
 import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
 import jakarta.annotation.Resource;
+<<<<<<< HEAD
+=======
+import lombok.Synchronized;
+>>>>>>> 7541c4b (add config)
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+<<<<<<< HEAD
+=======
+import reactor.core.publisher.Flux;
+>>>>>>> 7541c4b (add config)
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -36,12 +48,30 @@ public class AiChatController {
 
     private final  String  TARGET_FILENAME = "InfiniteChat.md";
 
+<<<<<<< HEAD
     @GetMapping("/chat")
     public String chat(String sessionId, String prompt) {
         return aiChat.chat(sessionId, prompt);
     }
 
 
+=======
+//    @GetMapping("/chat")
+//    public String chat(String sessionId, String prompt) {
+//        return aiChat.chat(sessionId, prompt);
+//    }
+
+    @PostMapping("/chat")
+    public String chat(@RequestBody ChatRequest chatRequest) {
+        return aiChat.chat(chatRequest.getSessionId(), chatRequest.getPrompt());
+    }
+
+
+    @PostMapping("/streamChat")
+    public Flux<String> streamChat(@RequestBody ChatRequest chatRequest) {
+        return aiChat.streamChat(chatRequest.getSessionId(), chatRequest.getPrompt());
+    }
+>>>>>>> 7541c4b (add config)
 
     @PostMapping("/insert")
     public String insertKnowledge(@RequestBody KnowledgeRequest knowledgeRequest) {
