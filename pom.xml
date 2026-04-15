@@ -53,11 +53,11 @@
             <version>1.1.0</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>dev.langchain4j</groupId>-->
-<!--            <artifactId>langchain4j-easy-rag</artifactId>-->
-<!--            <version>1.1.0-beta7</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>dev.langchain4j</groupId>-->
+        <!--            <artifactId>langchain4j-easy-rag</artifactId>-->
+        <!--            <version>1.1.0-beta7</version>-->
+        <!--        </dependency>-->
 
 
         <dependency>
@@ -79,11 +79,34 @@
             <version>1.1.0-beta7</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
+<<<<<<< HEAD
+=======
+
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-reactor</artifactId>
+            <version>1.1.0-beta7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+>>>>>>> 3fe7ac6 (over)
     </dependencies>
 
     <build>
