@@ -27,9 +27,10 @@ server:
 # 关键修复：增加Rerank日志级别，便于排查问题
 logging:
   level:
+    com.shanyangcode.infintechatagent: WARN  #屏蔽所有常规日志
     dev.langchain4j.mcp: ERROR
-    com.shanyangcode.infintechatagent.rag: INFO  # Rerank相关包日志级别
-    com.shanyangcode.infintechatagent.memory: DEBUG # 新增：会话记忆压缩日志
+    #com.shanyangcode.infintechatagent.rag: INFO  # Rerank相关包日志级别
+    #com.shanyangcode.infintechatagent.memory: DEBUG # 新增：会话记忆压缩日志
     org.springframework.web: WARN
     com.fasterxml.jackson: WARN
 
