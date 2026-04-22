@@ -88,8 +88,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
-<<<<<<< HEAD
-=======
 
         <dependency>
             <groupId>dev.langchain4j</groupId>
@@ -106,7 +104,6 @@
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
->>>>>>> 3fe7ac6 (over)
     </dependencies>
 
     <build>
