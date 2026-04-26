@@ -70,3 +70,10 @@
 ### 6. 流式输出交互优化
 
 支持 qwen-max 流式对话模型，实现对话结果的实时分段返回，提升用户交互体验，避免长文本回复的等待延迟。
+
+## 技术致谢 (Acknowledgements)
+
+本项目基于以下优秀的开源项目开发：
+- [LangChain4j](https://github.com/langchain4j/langchain4j) - 核心大模型交互框架
+- [PgVector](https://github.com/pgvector/pgvector) - 向量数据库支持
+- [sensitive-word](https://github.com/houbb/sensitive-word) - 敏感词过滤
