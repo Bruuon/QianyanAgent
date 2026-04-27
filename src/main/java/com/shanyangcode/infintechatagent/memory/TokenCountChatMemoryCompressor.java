@@ -1,7 +1,10 @@
 package com.shanyangcode.infintechatagent.memory;
 
+import ai.djl.huggingface.tokenizers.HuggingFaceTokenizer;
 import dev.langchain4j.data.message.ChatMessage;
 import dev.langchain4j.data.message.SystemMessage;
+import dev.langchain4j.data.message.AiMessage;
+import dev.langchain4j.data.message.UserMessage;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -12,10 +15,12 @@ public class TokenCountChatMemoryCompressor {
 
     private final int recentRounds;
     private final int recentTokenLimit;
+    private final HuggingFaceTokenizer tokenizer;
 
-    public TokenCountChatMemoryCompressor(int recentRounds, int recentTokenLimit) {
+    public TokenCountChatMemoryCompressor(int recentRounds, int recentTokenLimit, HuggingFaceTokenizer tokenizer) {
         this.recentRounds = recentRounds;
         this.recentTokenLimit = recentTokenLimit;
+        this.tokenizer = tokenizer;
     }
 
     public List<ChatMessage> compress(List<ChatMessage> messages) {
@@ -63,12 +68,12 @@ public class TokenCountChatMemoryCompressor {
     }
 
     private String extractText(ChatMessage msg) {
-        if (msg instanceof dev.langchain4j.data.message.AiMessage) {
-            return ((dev.langchain4j.data.message.AiMessage) msg).text();
-        } else if (msg instanceof dev.langchain4j.data.message.UserMessage) {
-            return ((dev.langchain4j.data.message.UserMessage) msg).singleText();
-        } else if (msg instanceof dev.langchain4j.data.message.SystemMessage) {
-            return ((dev.langchain4j.data.message.SystemMessage) msg).text();
+        if (msg instanceof AiMessage aiMsg) {
+            return aiMsg.text();
+        } else if (msg instanceof UserMessage userMsg) {
+            return userMsg.singleText();
+        } else if (msg instanceof SystemMessage sysMsg) {
+            return sysMsg.text();
         }
         return "";
     }
@@ -77,8 +82,9 @@ public class TokenCountChatMemoryCompressor {
         int total = 0;
         for (ChatMessage msg : messages) {
             String text = extractText(msg);
-            if (text != null) {
-                total += text.length() / 4;
+            if (text != null && !text.isEmpty()) {
+                int tokens = tokenizer.encode(text).getTokens().length;
+                total += tokens;
             }
         }
         return total;

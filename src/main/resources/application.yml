@@ -72,7 +72,7 @@ bigmodel:
 
 
 rag:
-  docs-path: C:\Users\79924\Desktop\tianmu\ByteCoach\src\main\resources\docs
+  docs-path: src/main/resources/docs
 
 management:
   endpoints:

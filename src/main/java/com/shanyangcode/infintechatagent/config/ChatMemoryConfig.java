@@ -7,6 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import ai.djl.huggingface.tokenizers.HuggingFaceTokenizer;
+import org.springframework.core.io.ClassPathResource;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 @Configuration
 @ConfigurationProperties(prefix = "chat.memory")
@@ -55,11 +61,38 @@ public class ChatMemoryConfig {
     }
 
     @Bean
-    public TokenCountChatMemoryCompressor tokenCountChatMemoryCompressor() {
+    public TokenCountChatMemoryCompressor tokenCountChatMemoryCompressor(HuggingFaceTokenizer qwenTokenizer) {
         log.info("创建TokenCountChatMemoryCompressor Bean");
         return new TokenCountChatMemoryCompressor(
             compression.getRecentRounds(),
-            compression.getRecentTokenLimit()
+            compression.getRecentTokenLimit(),
+            qwenTokenizer
         );
+    }
+
+    /**
+     * 初始化企业级本地分词器
+     */
+    @Bean
+    public HuggingFaceTokenizer qwenTokenizer() throws Exception {
+        log.info("正在加载 Qwen 本地词表...");
+
+        // 注意：Spring Boot 打包成 jar 后，无法直接通过路径访问文件。
+        // 标准做法是将 resource 里的文件流复制到临时目录再加载
+        ClassPathResource resource = new ClassPathResource("qwen/tokenizer.json");
+        Path tempFile = Files.createTempFile("qwen_tokenizer", ".json");
+
+        try (InputStream is = resource.getInputStream()) {
+            Files.copy(is, tempFile, StandardCopyOption.REPLACE_EXISTING);
+        }
+
+        // 构建并返回 Tokenizer
+        HuggingFaceTokenizer tokenizer = HuggingFaceTokenizer.newInstance(tempFile);
+
+        // 记得删除临时文件
+        tempFile.toFile().deleteOnExit();
+
+        log.info("Qwen 本地词表加载完成！");
+        return tokenizer;
     }
 }
