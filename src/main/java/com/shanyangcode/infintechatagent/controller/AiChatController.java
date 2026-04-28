@@ -1,6 +1,7 @@
 package com.shanyangcode.infintechatagent.controller;
 
 
+import com.shanyangcode.infintechatagent.Monitor.AiModelMetricsCollector;
 import com.shanyangcode.infintechatagent.Monitor.MonitorContext;
 import com.shanyangcode.infintechatagent.Monitor.MonitorContextHolder;
 import com.shanyangcode.infintechatagent.ai.AiChat;
@@ -23,6 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.time.Duration;
 
 /**
  * AI聊天控制器
@@ -41,8 +43,15 @@ public class AiChatController {
     @Resource
     private EmbeddingStoreIngestor embeddingStoreIngestor; // 向量数据库导入服务
 
+    @Resource
+    private AiModelMetricsCollector metricsCollector;
+
     @Value("${rag.docs-path}")
-    private String docsPath; // 文档存储路径配置
+    private String docsPath;
+
+    // 新增：动态获取启动时指定的应用名称，默认值为 unknown
+    @Value("${spring.application.name:unknown}")
+    private String applicationName;
 
     private final  String  TARGET_FILENAME = "InfiniteChat.md"; // 目标文件名常量
 
@@ -104,8 +113,39 @@ public class AiChatController {
         return Flux.defer(() -> {
             // 设置监控上下文
             MonitorContextHolder.setContext(context);
+
+            // 记录流开启时的时间戳
+            long startTime = System.currentTimeMillis();
+            // 原子标志位，保证只计算一次首字时间
+            java.util.concurrent.atomic.AtomicBoolean isFirstToken = new java.util.concurrent.atomic.AtomicBoolean(true);
+            // 数组用于在 Lambda 表达式内外传递首字耗时
+            long[] ttftRecord = new long[1];
+            // 这里的模型名称建议后续从配置或请求中动态获取，此处暂时写死为 agent-v2
+            String currentModelName = "agent-v2";
             // 执行流式聊天，并在完成时清除上下文
             return aiChat.streamChat(chatRequest.getSessionId(), chatRequest.getPrompt())
+                    .doOnNext(token -> {
+                        if (isFirstToken.compareAndSet(true, false)) {
+                            long ttft = System.currentTimeMillis() - startTime;
+                            ttftRecord[0] = ttft;
+
+                            // 转换 Long 为 String，并使用动态的 applicationName
+                            String safeUserId = context.getUserId() == null ? null : String.valueOf(context.getUserId());
+                            String safeSessionId = context.getSessionId() == null ? null : String.valueOf(context.getSessionId());
+
+                            metricsCollector.recordTtft(safeUserId, safeSessionId, applicationName, Duration.ofMillis(ttft));
+                        }
+                    })
+                    .doOnComplete(() -> {
+                        long totalTime = System.currentTimeMillis() - startTime;
+                        long genTime = totalTime - ttftRecord[0];
+
+                        String safeUserId = context.getUserId() == null ? null : String.valueOf(context.getUserId());
+                        String safeSessionId = context.getSessionId() == null ? null : String.valueOf(context.getSessionId());
+
+                        metricsCollector.recordGenTime(safeUserId, safeSessionId, applicationName, Duration.ofMillis(genTime));
+                        metricsCollector.recordTotalLatency(safeUserId, safeSessionId, applicationName, Duration.ofMillis(totalTime));
+                    })
                     .doFinally(signal -> MonitorContextHolder.clearContext());
         });
     }
