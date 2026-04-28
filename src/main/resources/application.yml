@@ -3,16 +3,16 @@ spring:
     name: InfiniteChat-Agent
   data:
     redis:
-      host: 134.175.219.78
+      host: localhost
       port: 59000
-      password: e65K4t8w2
+      password: wty061008
       ttl: 3600
       timeout: 30000
   mail:
     host: smtp.qq.com  # 以QQ邮箱为例
     port: 587
-    username: xxxxxx # 你的发件账号
-    password: xxxxxx # 你的SMTP授权码
+    username: 834850709@qq.com # 你的发件账号
+    password: fuzhbwwwqhwcbdad # 你的SMTP授权码
     properties:
       mail:
         smtp:
@@ -29,7 +29,7 @@ server:
 # 关键修复：增加Rerank日志级别，便于排查问题
 logging:
   level:
-    com.shanyangcode.infintechatagent: OFF  #屏蔽所有日志
+    com.shanyangcode.infintechatagent:   #屏蔽所有日志
     dev.langchain4j.mcp: ERROR
     #com.shanyangcode.infintechatagent.rag: INFO  # Rerank相关包日志级别
     #com.shanyangcode.infintechatagent.memory: DEBUG # 新增：会话记忆压缩日志
@@ -38,9 +38,9 @@ logging:
 
 pgvector:
   database: dp
-  host: 134.175.219.78
+  host: localhost
   port : 54328
-  user: root
+  user: postgres
   password: e65K4t7z1
   table: dp_embedding
 
@@ -50,16 +50,16 @@ langchain4j:
     dashscope:
       chat-model:
         model-name: qwen-max
-        api-key: xxxxxxxxxxxxx
+        api-key: sk-c6d4c5f49aad4360aa1c21a416542b50
       streaming-chat-model:
         model-name: qwen-max
-        api-key: xxxxxxxxxxxxxx
+        api-key: sk-c6d4c5f49aad4360aa1c21a416542b50
       embedding-model:
         model-name: text-embedding-v4
-        api-key: sk-fb06297b508445e089a448fcd54875ca
+        api-key: sk-c6d4c5f49aad4360aa1c21a416542b50
       rerank-model:
         model-name: qwen3-rerank  # 修复：使用正确的文本重排序模型
-        api-key: sk-fb06297b508445e089a448fcd54875ca
+        api-key: sk-c6d4c5f49aad4360aa1c21a416542b50
         enabled: true
 
 # 关键新增：启用Rerank启动验证
@@ -68,7 +68,7 @@ rerank:
     enabled: true
 
 bigmodel:
-  api-key: xxxxxxxxxxxxxxxxxxxxx
+  api-key: a478dba714b54b1181154f28ee5b06c3.w4kXfZ3Xzat5bYJF
 
 
 rag:
