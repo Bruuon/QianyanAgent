@@ -96,4 +96,44 @@ public class AiModelMetricsCollector {
         );
         timer.record(duration);
     }
+
+    /**
+     * 记录首字响应时间 (TTFT)
+     */
+    public void recordTtft(String userId, String sessionId, String modelName, Duration duration) {
+        recordSpecificTimer("ai_model_latency_ttft", userId, sessionId, modelName, duration);
+    }
+
+    /**
+     * 记录生成耗时
+     */
+    public void recordGenTime(String userId, String sessionId, String modelName, Duration duration) {
+        recordSpecificTimer("ai_model_latency_generation", userId, sessionId, modelName, duration);
+    }
+
+    /**
+     * 记录总耗时
+     */
+    public void recordTotalLatency(String userId, String sessionId, String modelName, Duration duration) {
+        recordSpecificTimer("ai_model_latency_total", userId, sessionId, modelName, duration);
+    }
+
+    /**
+     * 通用 Timer 构建方法
+     */
+    private void recordSpecificTimer(String metricName, String userId, String sessionId, String modelName, Duration duration) {
+        String safeUserId = (userId == null) ? "unknown" : userId;
+        String safeSessionId = (sessionId == null) ? "unknown" : sessionId;
+        String safeModel = (modelName == null) ? "unknown" : modelName;
+
+        String key = String.format("%s_%s_%s_%s", metricName, safeUserId, safeSessionId, safeModel);
+        Timer timer = responseTimersCache.computeIfAbsent(key, k ->
+                Timer.builder(metricName)
+                        .tag("user_id", safeUserId)
+                        .tag("session_id", safeSessionId)
+                        .tag("model_name", safeModel)
+                        .register(meterRegistry)
+        );
+        timer.record(duration);
+    }
 }

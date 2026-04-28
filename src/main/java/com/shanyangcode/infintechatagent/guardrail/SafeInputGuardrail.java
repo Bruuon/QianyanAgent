@@ -15,14 +15,9 @@ public class SafeInputGuardrail implements InputGuardrail {
     @Override
     public InputGuardrailResult validate(UserMessage userMessage) {
         String inputText = userMessage.singleText();
-
-
-
             if (SensitiveWordHelper.contains(inputText)) {
                 return fatal("提问不能包含敏感词！！！！！");
             }
-        
-
         return success();
     }
 }
